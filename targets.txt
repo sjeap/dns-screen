@@ -1,0 +1,11 @@
+# Namen, die jeder Resolver auflösen können muss (A-Records).
+# Ein Name pro Zeile. Zeilen mit # und Leerzeilen werden ignoriert.
+yahoo.com
+spiegel.de
+biglobe.ne.jp
+nordu.net
+berkeley.edu
+chatgpt.com
+napper.app
+plus.rtl.de
+claude.ai
