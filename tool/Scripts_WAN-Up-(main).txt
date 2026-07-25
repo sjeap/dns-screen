@@ -1,0 +1,44 @@
+# 1) Vorlage = von stubby erzeugte Config (korrekter Kopf inkl. Port)
+i=0
+while [ ! -s /etc/stubby/stubby.yml ] && [ $i -lt 30 ]; do
+  sleep 1; i=$((i+1))
+done
+if [ ! -s /etc/stubby/stubby.yml ]; then
+  logger -t stubby-alt -p user.notice "stubby.yml nicht gefunden – stubby_alt.yml NICHT gebaut"
+  exit 0
+fi
+cp /etc/stubby/stubby.yml /usr/tmp/stubby_alt.yml
+
+# 2) Default-Resolver ab "upstream_recursive_servers" bis Dateiende entfernen
+sed -i '/^upstream_recursive_servers:/,$d' /usr/tmp/stubby_alt.yml
+
+# 3) eigene DoT-Server anhängen
+echo 'upstream_recursive_servers:'            >> /usr/tmp/stubby_alt.yml
+echo '  - address_data: 176.9.93.198'         >> /usr/tmp/stubby_alt.yml
+echo '    tls_auth_name: "dnsforge.de"'       >> /usr/tmp/stubby_alt.yml
+echo '    tls_port: 853'                      >> /usr/tmp/stubby_alt.yml
+echo '  - address_data: 91.99.154.175'        >> /usr/tmp/stubby_alt.yml
+echo '    tls_auth_name: "dnsforge.de"'       >> /usr/tmp/stubby_alt.yml
+echo '    tls_port: 853'                      >> /usr/tmp/stubby_alt.yml
+echo '  - address_data: 49.12.67.122'         >> /usr/tmp/stubby_alt.yml
+echo '    tls_auth_name: "dnsforge.de"'       >> /usr/tmp/stubby_alt.yml
+echo '    tls_port: 853'                      >> /usr/tmp/stubby_alt.yml
+echo '  - address_data: 149.112.112.112'      >> /usr/tmp/stubby_alt.yml
+echo '    tls_auth_name: "dns.quad9.net"'     >> /usr/tmp/stubby_alt.yml
+echo '    tls_port: 853'                      >> /usr/tmp/stubby_alt.yml
+echo '  - address_data: 9.9.9.9'              >> /usr/tmp/stubby_alt.yml
+echo '    tls_auth_name: "dns.quad9.net"'     >> /usr/tmp/stubby_alt.yml
+echo '    tls_port: 853'                      >> /usr/tmp/stubby_alt.yml
+# echo '  - address_data: 80.153.146.105'       >> /usr/tmp/stubby_alt.yml
+# echo '    tls_auth_name: "dot.kekew.info"'    >> /usr/tmp/stubby_alt.yml
+# echo '    tls_port: 65533'                    >> /usr/tmp/stubby_alt.yml
+# echo '  - address_data: 217.91.179.72'        >> /usr/tmp/stubby_alt.yml
+# echo '    tls_auth_name: "dot.kekew.info"'    >> /usr/tmp/stubby_alt.yml
+# echo '    tls_port: 65533'                    >> /usr/tmp/stubby_alt.yml
+
+# 4) stubby mit neuer Config neu starten
+cp /usr/tmp/stubby_alt.yml /etc/stubby/stubby_alt.yml
+nvram set stubby_log=6
+service stubby restart
+service dnsmasq restart
+logger -t stubby-alt -p user.notice "stubby_alt.yml gebaut, stubby mit Custom-DoT neu gestartet"
