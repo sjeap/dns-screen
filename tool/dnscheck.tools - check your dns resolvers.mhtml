@@ -1,1 +1,448 @@
+From: <Saved by Blink>
+Snapshot-Content-Location: https://dnscheck.tools/
+Subject: dnscheck.tools - check your dns resolvers
+Date: Sat, 25 Jul 2026 08:09:29 +0200
+MIME-Version: 1.0
+Content-Type: multipart/related;
+	type="text/html";
+	boundary="----MultipartBoundary--PMFs2q7DOMfsDefUzylpkz4kRv5up12Adgnlru6e0N----"
 
+
+------MultipartBoundary--PMFs2q7DOMfsDefUzylpkz4kRv5up12Adgnlru6e0N----
+Content-Type: text/html
+Content-ID: <frame-0A396FB2A0A274227D6BEA4E03B9A3EB@mhtml.blink>
+Content-Transfer-Encoding: quoted-printable
+Content-Location: https://dnscheck.tools/
+
+<!DOCTYPE html><html lang=3D"en" style=3D"--ip-min-width: 26ch; --ptr-min-w=
+idth: 53ch; --geo-min-width: 35ch;"><head><meta http-equiv=3D"Content-Type"=
+ content=3D"text/html; charset=3DUTF-8">
+<meta name=3D"viewport" content=3D"width=3Ddevice-width, initial-scale=3D1,=
+ viewport-fit=3Dcover">
+<meta name=3D"theme-color" media=3D"(prefers-color-scheme: light)" content=
+=3D"#ebebeb">
+<meta name=3D"theme-color" media=3D"(prefers-color-scheme: dark)" content=
+=3D"#222222">
+<meta name=3D"description" content=3D"A tool to test for DNS leaks, DNSSEC =
+validation, and more">
+<title>dnscheck.tools - check your dns resolvers</title>
+<link rel=3D"icon" type=3D"image/svg+xml" href=3D"https://dnscheck.tools/fa=
+vicon.svg">
+<link rel=3D"apple-touch-icon" href=3D"https://dnscheck.tools/apple-touch-i=
+con.png">
+<link rel=3D"manifest" href=3D"https://dnscheck.tools/site.webmanifest">
+<link rel=3D"stylesheet" href=3D"https://dnscheck.tools/main.css">
+
+</head><body><header>
+  <div><h1><a href=3D"https://dnscheck.tools/">dnscheck.tools</a></h1></div=
+>
+  <div></div>
+  <div><a href=3D"https://dnscheck.tools/help" title=3D"Help">[?]</a></div>
+</header>
+<div class=3D"content ip-list-tabular" id=3D"content">
+  <div class=3D"content-inner">
+    <div class=3D"section" id=3D"connection-results"><div>Your IP addresses=
+ (<span class=3D"link">show more</span>):</div><div class=3D"subtitle">MDA-=
+Z</div><ul class=3D"ip-list"><li><span><a class=3D"no-ul" href=3D"https://i=
+nfo.addr.tools/XXX" target=3D"_blank">XXX</a></span> <span =
+class=3D"blue" title=3D"PTR record (reverse DNS) for this IP">ptr: XXX</span> <span class=3D"indigo">XXX</span></li></ul></div>
+    <div class=3D"section hidden" id=3D"ecs-results">
+      <div>Your DNS resolvers advertise your IP subnet (<a href=3D"https://=
+en.wikipedia.org/wiki/EDNS_Client_Subnet" title=3D"EDNS Client Subnet">ECS<=
+/a>):</div>
+    </div>
+    <div class=3D"section" id=3D"resolver-results"><div>Your DNS resolvers:=
+</div><div class=3D"subtitle">Hetzner Online GmbH</div><ul class=3D"ip-list=
+"><li><span><a class=3D"no-ul" href=3D"https://info.addr.tools/49.12.67.122=
+" target=3D"_blank">49.12.67.122</a></span> <span class=3D"blue" title=3D"P=
+TR record (reverse DNS) for this IP">ptr: dnsforge.de</span> <span class=3D=
+"indigo">Falkenstein, Saxony, DE</span></li><li><span><a class=3D"no-ul" hr=
+ef=3D"https://info.addr.tools/91.99.154.175" target=3D"_blank">91.99.154.17=
+5</a></span> <span class=3D"blue" title=3D"PTR record (reverse DNS) for thi=
+s IP">ptr: dnsforge.de</span> <span class=3D"indigo">Falkenstein, Saxony, D=
+E</span></li><li><span><a class=3D"no-ul" href=3D"https://info.addr.tools/2=
+a01:4f8:c010:8c35::175" target=3D"_blank">2a01:4f8:c010:8c35::175</a></span=
+> <span class=3D"blue" title=3D"PTR record (reverse DNS) for this IP">ptr: =
+dnsforge.de</span> <span class=3D"indigo">Falkenstein, Saxony, DE</span></l=
+i><li><span><a class=3D"no-ul" href=3D"https://info.addr.tools/2a01:4f8:c01=
+3:29d::122" target=3D"_blank">2a01:4f8:c013:29d::122</a></span> <span class=
+=3D"blue" title=3D"PTR record (reverse DNS) for this IP">ptr: dnsforge.de</=
+span> <span class=3D"indigo">Falkenstein, Saxony, DE</span></li></ul><div c=
+lass=3D"subtitle">HOS-GUN</div><ul class=3D"ip-list"><li><span><a class=3D"=
+no-ul" href=3D"https://info.addr.tools/176.9.93.198" target=3D"_blank">176.=
+9.93.198</a></span> <span class=3D"blue" title=3D"PTR record (reverse DNS) =
+for this IP
+
+Warning: The claimed hostname does not resolve to this IP">ptr: <span class=
+=3D"unverified-ptr">dnsforge.de</span></span> <span class=3D"indigo">Falken=
+stein, Saxony, DE</span></li><li><span><a class=3D"no-ul" href=3D"https://i=
+nfo.addr.tools/2a01:4f8:151:34aa::198" target=3D"_blank">2a01:4f8:151:34aa:=
+:198</a></span> <span class=3D"blue" title=3D"PTR record (reverse DNS) for =
+this IP
+
+Warning: The claimed hostname does not resolve to this IP">ptr: <span class=
+=3D"unverified-ptr">dnsforge.de</span></span> <span class=3D"indigo">Frankf=
+urt am Main, Hesse, DE</span></li></ul><div class=3D"subtitle">Quad9 (partn=
+ered with MNT-I3D)</div><ul class=3D"ip-list"><li><span><a class=3D"no-ul" =
+href=3D"https://info.addr.tools/188.122.68.216" target=3D"_blank">188.122.6=
+8.216</a></span> <span class=3D"blue" title=3D"PTR record (reverse DNS) for=
+ this IP
+
+Warning: The claimed hostname does not resolve to this IP">ptr: <span class=
+=3D"unverified-ptr">hosted-by.i3d.net</span></span> <span class=3D"indigo">=
+Frankfurt am Main, Hesse, DE</span></li><li><span><a class=3D"no-ul" href=
+=3D"https://info.addr.tools/188.122.68.217" target=3D"_blank">188.122.68.21=
+7</a></span> <span class=3D"blue" title=3D"PTR record (reverse DNS) for thi=
+s IP
+
+Warning: The claimed hostname does not resolve to this IP">ptr: <span class=
+=3D"unverified-ptr">hosted-by.i3d.net</span></span> <span class=3D"indigo">=
+Frankfurt am Main, Hesse, DE</span></li><li><span><a class=3D"no-ul" href=
+=3D"https://info.addr.tools/188.122.68.218" target=3D"_blank">188.122.68.21=
+8</a></span> <span class=3D"blue" title=3D"PTR record (reverse DNS) for thi=
+s IP
+
+Warning: The claimed hostname does not resolve to this IP">ptr: <span class=
+=3D"unverified-ptr">hosted-by.i3d.net</span></span> <span class=3D"indigo">=
+Frankfurt am Main, Hesse, DE</span></li><li><span><a class=3D"no-ul" href=
+=3D"https://info.addr.tools/188.122.68.219" target=3D"_blank">188.122.68.21=
+9</a></span> <span class=3D"blue" title=3D"PTR record (reverse DNS) for thi=
+s IP
+
+Warning: The claimed hostname does not resolve to this IP">ptr: <span class=
+=3D"unverified-ptr">hosted-by.i3d.net</span></span> <span class=3D"indigo">=
+Frankfurt am Main, Hesse, DE</span></li><li><span><a class=3D"no-ul" href=
+=3D"https://info.addr.tools/2a00:1637:409:92:9999::216" target=3D"_blank">2=
+a00:1637:409:92:9999::216</a></span> <span class=3D"violet" title=3D"Author=
+itative nameserver for this IP's reverse DNS">ns: ns1.i3d.net</span> <span =
+class=3D"indigo">Frankfurt am Main, Hesse, DE</span></li><li><span><a class=
+=3D"no-ul" href=3D"https://info.addr.tools/2a00:1637:409:93:9999::217" targ=
+et=3D"_blank">2a00:1637:409:93:9999::217</a></span> <span class=3D"violet" =
+title=3D"Authoritative nameserver for this IP's reverse DNS">ns: ns1.i3d.ne=
+t</span> <span class=3D"indigo">Frankfurt am Main, Hesse, DE</span></li><li=
+><span><a class=3D"no-ul" href=3D"https://info.addr.tools/2a00:1637:409:94:=
+9999::218" target=3D"_blank">2a00:1637:409:94:9999::218</a></span> <span cl=
+ass=3D"violet" title=3D"Authoritative nameserver for this IP's reverse DNS"=
+>ns: ns1.i3d.net</span> <span class=3D"indigo">Frankfurt am Main, Hesse, DE=
+</span></li><li><span><a class=3D"no-ul" href=3D"https://info.addr.tools/2a=
+00:1637:409:95:9999::219" target=3D"_blank">2a00:1637:409:95:9999::219</a><=
+/span> <span class=3D"violet" title=3D"Authoritative nameserver for this IP=
+'s reverse DNS">ns: ns1.i3d.net</span> <span class=3D"indigo">Frankfurt am =
+Main, Hesse, DE</span></li></ul></div>
+    <div class=3D"section" id=3D"dnssec-results"><div>Your DNS security (<a=
+ href=3D"https://en.wikipedia.org/wiki/Domain_Name_System_Security_Extensio=
+ns" title=3D"Domain Name System Security Extensions">DNSSEC</a>):</div><div=
+><table class=3D"dnssec"><thead><tr><th></th><th>ECDSA <span class=3D"nowra=
+p">P-256</span></th><th>ECDSA <span class=3D"nowrap">P-384</span></th><th>E=
+d25519</th></tr></thead><tbody><tr><th>Valid signature</th><td class=3D"gre=
+en">PASS</td><td class=3D"green">PASS</td><td class=3D"green">PASS</td></tr=
+><tr><th>Invalid signature</th><td class=3D"green">PASS</td><td class=3D"gr=
+een">PASS</td><td class=3D"green">PASS</td></tr><tr><th>Expired signature</=
+th><td class=3D"green">PASS</td><td class=3D"green">PASS</td><td class=3D"g=
+reen">PASS</td></tr><tr><th>Missing signature</th><td class=3D"green">PASS<=
+/td><td class=3D"green">PASS</td><td class=3D"green">PASS</td></tr></tbody>=
+</table></div></div>
+    <div class=3D"section" id=3D"done-msg">
+      <div>
+        Like this tool?
+        Star us on <a href=3D"https://github.com/brianshea2/addr.tools">Git=
+Hub</a>.
+      </div>
+    </div>
+  </div>
+</div>
+<div class=3D"status">
+  <div>
+    <span id=3D"rtt-status" class=3D"" title=3D"Average DNS resolution time=
+"><span class=3D"green">57ms</span></span>
+    <span id=3D"ipv6-status"><span class=3D"green" title=3D"Your DNS resolv=
+ers connect to nameservers over IPv6">IPv6</span></span>
+    <span id=3D"edns-status"><span class=3D"green" title=3D"Extension Mecha=
+nisms for DNS
+
+Advertised UDP buffer sizes: 1232">EDNS</span></span>
+    <span id=3D"dnssec-status"><span class=3D"green" title=3D"Domain Name S=
+ystem Security Extensions
+
+Your DNS responses are authenticated">DNSSEC</span></span>
+    <span id=3D"ech-status"><span class=3D"yellow" title=3D"Encrypted Clien=
+t Hello
+
+ECH is supported, but the HTTPS server name was not encrypted (GREASE)
+
+Possible reasons:
+- filtering of ECH related DNS records
+- insecure DNS transport
+- something else">ECH</span></span>
+  </div>
+  <div>
+    <span class=3D"nowrap" title=3D"Total DNS requests received and analyze=
+d from your resolvers">
+      dns: <span id=3D"count" class=3D"">57</span>
+    </span>
+  </div>
+</div>
+</body></html>
+------MultipartBoundary--PMFs2q7DOMfsDefUzylpkz4kRv5up12Adgnlru6e0N----
+Content-Type: text/css
+Content-Transfer-Encoding: quoted-printable
+Content-Location: https://fonts.googleapis.com/css2?family=Roboto+Mono:ital,wght@0,100..700;1,100..700
+
+@charset "utf-8";
+
+@font-face { font-family: "Roboto Mono"; font-style: italic; font-weight: 1=
+00 700; src: url("https://fonts.gstatic.com/s/robotomono/v31/L0x7DF4xlVMF-B=
+fR8bXMIjhOm3CWWoKC.woff2") format("woff2"); unicode-range: U+460-52F, U+1C8=
+0-1C8A, U+20B4, U+2DE0-2DFF, U+A640-A69F, U+FE2E-FE2F; }
+
+@font-face { font-family: "Roboto Mono"; font-style: italic; font-weight: 1=
+00 700; src: url("https://fonts.gstatic.com/s/robotomono/v31/L0x7DF4xlVMF-B=
+fR8bXMIjhOm3mWWoKC.woff2") format("woff2"); unicode-range: U+301, U+400-45F=
+, U+490-491, U+4B0-4B1, U+2116; }
+
+@font-face { font-family: "Roboto Mono"; font-style: italic; font-weight: 1=
+00 700; src: url("https://fonts.gstatic.com/s/robotomono/v31/L0x7DF4xlVMF-B=
+fR8bXMIjhOm36WWoKC.woff2") format("woff2"); unicode-range: U+370-377, U+37A=
+-37F, U+384-38A, U+38C, U+38E-3A1, U+3A3-3FF; }
+
+@font-face { font-family: "Roboto Mono"; font-style: italic; font-weight: 1=
+00 700; src: url("https://fonts.gstatic.com/s/robotomono/v31/L0x7DF4xlVMF-B=
+fR8bXMIjhOm3KWWoKC.woff2") format("woff2"); unicode-range: U+102-103, U+110=
+-111, U+128-129, U+168-169, U+1A0-1A1, U+1AF-1B0, U+300-301, U+303-304, U+3=
+08-309, U+323, U+329, U+1EA0-1EF9, U+20AB; }
+
+@font-face { font-family: "Roboto Mono"; font-style: italic; font-weight: 1=
+00 700; src: url("https://fonts.gstatic.com/s/robotomono/v31/L0x7DF4xlVMF-B=
+fR8bXMIjhOm3OWWoKC.woff2") format("woff2"); unicode-range: U+100-2BA, U+2BD=
+-2C5, U+2C7-2CC, U+2CE-2D7, U+2DD-2FF, U+304, U+308, U+329, U+1D00-1DBF, U+=
+1E00-1E9F, U+1EF2-1EFF, U+2020, U+20A0-20AB, U+20AD-20C0, U+2113, U+2C60-2C=
+7F, U+A720-A7FF; }
+
+@font-face { font-family: "Roboto Mono"; font-style: italic; font-weight: 1=
+00 700; src: url("https://fonts.gstatic.com/s/robotomono/v31/L0x7DF4xlVMF-B=
+fR8bXMIjhOm32WWg.woff2") format("woff2"); unicode-range: U+0-FF, U+131, U+1=
+52-153, U+2BB-2BC, U+2C6, U+2DA, U+2DC, U+304, U+308, U+329, U+2000-206F, U=
++20AC, U+2122, U+2191, U+2193, U+2212, U+2215, U+FEFF, U+FFFD; }
+
+@font-face { font-family: "Roboto Mono"; font-style: normal; font-weight: 1=
+00 700; src: url("https://fonts.gstatic.com/s/robotomono/v31/L0x5DF4xlVMF-B=
+fR8bXMIjhGq3-OXg.woff2") format("woff2"); unicode-range: U+460-52F, U+1C80-=
+1C8A, U+20B4, U+2DE0-2DFF, U+A640-A69F, U+FE2E-FE2F; }
+
+@font-face { font-family: "Roboto Mono"; font-style: normal; font-weight: 1=
+00 700; src: url("https://fonts.gstatic.com/s/robotomono/v31/L0x5DF4xlVMF-B=
+fR8bXMIjhPq3-OXg.woff2") format("woff2"); unicode-range: U+301, U+400-45F, =
+U+490-491, U+4B0-4B1, U+2116; }
+
+@font-face { font-family: "Roboto Mono"; font-style: normal; font-weight: 1=
+00 700; src: url("https://fonts.gstatic.com/s/robotomono/v31/L0x5DF4xlVMF-B=
+fR8bXMIjhIq3-OXg.woff2") format("woff2"); unicode-range: U+370-377, U+37A-3=
+7F, U+384-38A, U+38C, U+38E-3A1, U+3A3-3FF; }
+
+@font-face { font-family: "Roboto Mono"; font-style: normal; font-weight: 1=
+00 700; src: url("https://fonts.gstatic.com/s/robotomono/v31/L0x5DF4xlVMF-B=
+fR8bXMIjhEq3-OXg.woff2") format("woff2"); unicode-range: U+102-103, U+110-1=
+11, U+128-129, U+168-169, U+1A0-1A1, U+1AF-1B0, U+300-301, U+303-304, U+308=
+-309, U+323, U+329, U+1EA0-1EF9, U+20AB; }
+
+@font-face { font-family: "Roboto Mono"; font-style: normal; font-weight: 1=
+00 700; src: url("https://fonts.gstatic.com/s/robotomono/v31/L0x5DF4xlVMF-B=
+fR8bXMIjhFq3-OXg.woff2") format("woff2"); unicode-range: U+100-2BA, U+2BD-2=
+C5, U+2C7-2CC, U+2CE-2D7, U+2DD-2FF, U+304, U+308, U+329, U+1D00-1DBF, U+1E=
+00-1E9F, U+1EF2-1EFF, U+2020, U+20A0-20AB, U+20AD-20C0, U+2113, U+2C60-2C7F=
+, U+A720-A7FF; }
+
+@font-face { font-family: "Roboto Mono"; font-style: normal; font-weight: 1=
+00 700; src: url("https://fonts.gstatic.com/s/robotomono/v31/L0x5DF4xlVMF-B=
+fR8bXMIjhLq38.woff2") format("woff2"); unicode-range: U+0-FF, U+131, U+152-=
+153, U+2BB-2BC, U+2C6, U+2DA, U+2DC, U+304, U+308, U+329, U+2000-206F, U+20=
+AC, U+2122, U+2191, U+2193, U+2212, U+2215, U+FEFF, U+FFFD; }
+------MultipartBoundary--PMFs2q7DOMfsDefUzylpkz4kRv5up12Adgnlru6e0N----
+Content-Type: text/css
+Content-Transfer-Encoding: quoted-printable
+Content-Location: https://dnscheck.tools/main.css
+
+@charset "utf-8";
+
+@import url("https://fonts.googleapis.com/css2?family=3DRoboto+Mono:ital,wg=
+ht@0,100..700;1,100..700");
+
+:root { text-size-adjust: none; --background-color: #fff; --header-color: #=
+ebebeb; --status-color: #ebebeb; --text-color: #2e3436; --text-color-red: #=
+c00; --text-color-orange: #c85000; --text-color-yellow: #c4a000; --text-col=
+or-green: #4e9a06; --text-color-blue: #06989a; --text-color-indigo: #3465a4=
+; --text-color-violet: #75507b; }
+
+@media (prefers-color-scheme: dark) {
+  :root { --background-color: #2e3436; --header-color: #222222; --status-co=
+lor: #222222; --text-color: #d3d7cf; --text-color-red: #ef2929; --text-colo=
+r-orange: #f6893c; --text-color-yellow: #fce94f; --text-color-green: #8ae23=
+4; --text-color-blue: #34e2e2; --text-color-indigo: #729fcf; --text-color-v=
+iolet: #ad7fa8; }
+}
+
+body { background-color: var(--background-color); color: var(--text-color);=
+ font-size: 13px; line-height: 1.3; margin: 0px; }
+
+body, code, kbd, samp, var { font-family: "Roboto Mono", monospace; }
+
+var { font-style: italic; }
+
+var::before { content: "<"; }
+
+var::after { content: ">"; }
+
+a, span.link { color: inherit; cursor: pointer; text-decoration: underline;=
+ }
+
+a.no-ul, span.link.no-ul { text-decoration: none; }
+
+:is(a, span.link):hover { font-weight: bold; text-decoration: underline; }
+
+h1, h2, h3 { font-size: 1em; font-weight: bold; margin: 0px; }
+
+p { margin: 0px; }
+
+ul { list-style: none; margin: 0px; padding: 0px; }
+
+ul.indent li { padding-left: 2ch; text-indent: -2ch; }
+
+@media (min-width: 768px) {
+  ul.indent li { padding-left: 4ch; text-indent: -4ch; }
+}
+
+ul.ip-list li { display: flex; flex-direction: column; word-break: break-al=
+l; }
+
+.ip-list-tabular ul.ip-list li { flex-direction: row; white-space: nowrap; =
+}
+
+.ip-list-tabular ul.ip-list li:hover { font-weight: bold; }
+
+.ip-list-tabular ul.ip-list li > span:nth-child(1) { width: var(--ip-min-wi=
+dth); }
+
+.ip-list-tabular ul.ip-list li > span:nth-child(2) { width: var(--ptr-min-w=
+idth); }
+
+.ip-list-tabular ul.ip-list li > span:nth-child(3) { width: var(--geo-min-w=
+idth); }
+
+ul.ip-list li > span:nth-child(n+2) { padding-left: 2ch; }
+
+@media (min-width: 768px) {
+  ul.ip-list li > span:nth-child(n+2) { padding-left: 4ch; }
+}
+
+.unverified-ptr { opacity: 0.7; text-decoration: underline wavy rgb(204, 0,=
+ 0); }
+
+ul.options li > span:nth-child(1) { font-weight: bold; }
+
+ul.options li > span:nth-child(2)::before { content: "- "; }
+
+@media (min-width: 768px) {
+  ul.options li { display: grid; grid-template-columns: 1fr 4fr; gap: 4ch; =
+}
+  ul.options li > span:nth-child(2)::before { padding-left: 2ch; }
+}
+
+.bold, strong { font-weight: bold; }
+
+.light { opacity: 0.5; }
+
+.break { word-break: break-all; }
+
+.nowrap { white-space: nowrap; }
+
+.red { color: var(--text-color-red); }
+
+.orange { color: var(--text-color-orange); }
+
+.yellow { color: var(--text-color-yellow); }
+
+.green { color: var(--text-color-green); }
+
+.blue { color: var(--text-color-blue); }
+
+.indigo { color: var(--text-color-indigo); }
+
+.violet { color: var(--text-color-violet); }
+
+header { background-color: var(--header-color); display: grid; grid-templat=
+e-columns: 1fr max-content 1fr; gap: 1ch; padding-top: calc(1em + env(safe-=
+area-inset-top)); padding-right: 2ch; padding-bottom: 1em; padding-left: 2c=
+h; position: fixed; top: 0px; left: 0px; right: 0px; white-space: nowrap; }
+
+header > div:last-child { text-align: right; }
+
+header :is(a, span.link) { text-decoration: none !important; }
+
+header h1 { display: inline; }
+
+.content { padding-top: env(safe-area-inset-top); padding-right: 0px; paddi=
+ng-bottom: env(safe-area-inset-bottom); padding-left: 0px; }
+
+.content-inner { display: inline-flex; flex-direction: column; gap: 1.6em; =
+padding: 5em 2ch 4em; }
+
+body:not(:has(> .status)) .content-inner { padding-bottom: 2.6em; }
+
+.status { background-color: var(--status-color); display: flex; align-items=
+: center; gap: 2ch; padding-top: 0.5em; padding-right: 2ch; padding-bottom:=
+ calc(0.5em + env(safe-area-inset-bottom)); padding-left: 2ch; position: fi=
+xed; bottom: 0px; left: 0px; right: 0px; }
+
+.status > div:last-child { flex-grow: 1; text-align: right; }
+
+.d-flex-col { display: flex; flex-direction: column; }
+
+.dns-request-wrapper { display: flex; gap: 1ch; }
+
+.dns-request { border-left: 2px solid; padding-left: 1ch; white-space: pre;=
+ }
+
+.section { display: flex; flex-direction: column; gap: 1.3em; }
+
+.section.hidden { display: none; }
+
+.section :is(h2, h3, .title, .subtitle) { margin-bottom: -1.3em; white-spac=
+e: nowrap; }
+
+.section :is(h3, .subtitle) { padding-left: 2ch; }
+
+.section > :is(p, ul) { padding-left: 4ch; }
+
+@media (min-width: 768px) {
+  .section :is(h3, .subtitle) { padding-left: 4ch; }
+  .section > :is(p, ul) { padding-left: 8ch; }
+}
+
+table.dnssec { display: grid; align-items: end; grid-template-columns: max-=
+content repeat(3, 1fr); }
+
+table.dnssec :is(thead, tbody, tr) { display: contents; }
+
+table.dnssec :is(th, td) { font-weight: normal; padding: 0px 0px 0px 2ch; t=
+ext-align: center; }
+
+@media (min-width: 768px) {
+  table.dnssec :is(th, td) { padding-left: 4ch; }
+}
+
+table.dnssec tbody th { text-align: left; }
+
+table.dnssec tbody tr:hover :is(th, td) { font-weight: bold; }
+
+@keyframes fade-pulse {=20
+  0%, 100% { opacity: 0; }
+  50% { opacity: 1; }
+}
+
+.pending > span { opacity: 0; animation: 3s ease 0s infinite normal none ru=
+nning fade-pulse; }
+
+.pending > span:nth-child(2) { animation-delay: 0.5s; }
+
+.pending > span:nth-child(3) { animation-delay: 1s; }
+------MultipartBoundary--PMFs2q7DOMfsDefUzylpkz4kRv5up12Adgnlru6e0N------
