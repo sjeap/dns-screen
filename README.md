@@ -6,10 +6,11 @@ native Failure-Mail — ohne SMTP-Action, ohne Secrets.
 
 ## Funktionsweise
 
-- **Server-IPs** kommen aus `tool/*.mhtml` (ein dnscheck.tools-Snapshot).
-  `extract-servers.py` dekodiert das MHTML, greift **ausschließlich**
-  die Sektion `resolver-results` ab und gibt die **IPv4-Adressen (A-Records)**
-  der Resolver aus.
+- **Server-IPs** kommen aus der DoT-Quellconfig unter `tool/` (die WAN-Up-/
+  stubby-Datei). `extract-servers.py` liest die **aktiven** `address_data:`-
+  Zeilen und gibt deren **IPv4-Adressen (A-Records)** aus. Auskommentierte
+  Zeilen (`#`) werden ignoriert — ein dort deaktivierter Server ist auch hier
+  deaktiviert.
 - **Ziele** stehen in `targets.txt` (ein Name pro Zeile, `#` = Kommentar).
 - **Prüfung**: alle Server werden **parallel** geprüft (ein Job pro IP), je
   Server × Ziel `dig @<ip> <name> A +short` mit 2 Versuchen (gegen
@@ -29,10 +30,10 @@ native Failure-Mail — ohne SMTP-Action, ohne Secrets.
 
 ## Überwachte Server ändern
 
-Die `tool/*.mhtml` ist die Single Source of Truth. Neuen Snapshot von
-<https://dnscheck.tools/> speichern, die Datei im `tool/`-Ordner ersetzen,
-committen — der nächste Lauf prüft automatisch die neuen/geänderten IPs.
-Am Code oder an der Workflow-Datei ist dafür nichts zu ändern.
+Die DoT-Quellconfig unter `tool/` ist die Single Source of Truth. Server
+hinzufügen/entfernen = die `address_data:`-Zeilen dort bearbeiten bzw. mit `#`
+auskommentieren, committen — der nächste Lauf prüft automatisch die aktive
+Liste. Am Code oder an der Workflow-Datei ist dafür nichts zu ändern.
 
 ## Proxy-Fallback (optional)
 
@@ -97,14 +98,14 @@ wenn der Check fehlschlägt.
 
 ```
 dns-monitor/
-├── extract-servers.py  ← MHTML → IPv4-Resolverliste (A-Records)
-├── check.sh            ← paralleler dig-Loop, Klassifizierung, State, Transition-Exit
+├── extract-servers.py  ← aktive address_data-IPs aus der Quellconfig (A-Records)
+├── check.sh            ← paralleler dig-Loop, Klassifizierung, State, Proxy-Fallback
 ├── targets.txt         ← feste Prüfliste (ein Name pro Zeile)
 ├── last-status.json    ← persistierter Status (Commit nur bei Zustandswechsel)
 ├── ACKNOWLEDGMENTS.md  ← Credits/Quellen (wird ins README gespiegelt)
 ├── README.md
 ├── tool/
-│   └── *.mhtml         ← dnscheck.tools-Snapshot (Single Source of Truth der Server-IPs)
+│   └── Scripts_WAN-Up-(main).txt  ← DoT-Quellconfig (Single Source of Truth der Server-IPs)
 └── .github/workflows/
     └── dns-check.yml   ← Cron (15 min) + manueller Trigger
 ```

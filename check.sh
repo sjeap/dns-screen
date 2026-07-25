@@ -1,8 +1,8 @@
 #!/usr/bin/env bash
 # check.sh — resolve a fixed set of names against every detected resolver IP.
 #
-# Server IPs come from tool/*.mhtml (see extract-servers.py); target names come
-# from targets.txt. Each name is queried per server with `dig @ip name A`
+# Server IPs come from the DoT source config in tool/ (see extract-servers.py);
+# target names come from targets.txt. Each name is queried per server with `dig @ip name A`
 # (A records only, 2 attempts against UDP packet loss). A server is FAIL if any
 # name does not resolve. Cause is split: OFFLINE (no reply at all, dig rc 9) vs
 # RESOLUTION BROKEN (server replies but some names have no A answer).
@@ -34,7 +34,7 @@ mapfile -t TARGETS < <(grep -vE '^\s*(#|$)' "$TARGETS_FILE" | tr -d '\r' | awk '
 mapfile -t SERVERS < <(python3 "$REPO_ROOT/extract-servers.py")
 
 if [ "${#SERVERS[@]}" -eq 0 ]; then
-  echo "::error::No resolver IPs extracted from tool/*.mhtml"; exit 1
+  echo "::error::No resolver IPs extracted from tool/ source config"; exit 1
 fi
 if [ "${#TARGETS[@]}" -eq 0 ]; then
   echo "::error::No target names in targets.txt"; exit 1
