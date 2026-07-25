@@ -21,6 +21,10 @@ native Failure-Mail — ohne SMTP-Action, ohne Secrets.
   - `AUFLÖSUNG DEFEKT` — Server antwortet, aber für einzelne Ziele kommt kein
     A-Record (SERVFAIL/NXDOMAIN/leer); die betroffenen Namen werden benannt.
   - sonst `OK`.
+- **Proxy-Fallback (optional)**: Server, die direkt scheitern, werden über einen
+  Residential-SOCKS5-Proxy erneut geprüft (Secrets `DATAIMPULSE_USER` /
+  `DATAIMPULSE_PASS`). Nur wenn sie auch darüber nicht auflösen, zählen sie als
+  FAIL. Details unten.
 - Der Gesamtstatus ist `FAIL`, sobald **ein** Server nicht `OK` ist.
 
 ## Überwachte Server ändern
@@ -29,6 +33,34 @@ Die `tool/*.mhtml` ist die Single Source of Truth. Neuen Snapshot von
 <https://dnscheck.tools/> speichern, die Datei im `tool/`-Ordner ersetzen,
 committen — der nächste Lauf prüft automatisch die neuen/geänderten IPs.
 Am Code oder an der Workflow-Datei ist dafür nichts zu ändern.
+
+## Proxy-Fallback (optional)
+
+Manche Resolver (z. B. Quad9-Egress-Nodes hinter i3d) beantworten nur bestimmte
+Netze und antworten den GitHub-Runner-IPs nicht — sie erscheinen dann als
+`OFFLINE`, obwohl sie lokal funktionieren. Dagegen prüft der Monitor jeden
+direkt gescheiterten Server ein zweites Mal über einen **Residential-SOCKS5-
+Proxy** (DataImpulse). Erst wenn ein Server auch darüber nicht auflöst, gilt er
+als FAIL.
+
+Konfiguration wie im `web-feed`-Repo — gleicher Account, gleiche Credentials,
+nur der Port unterscheidet sich. Zwei Repo-Secrets, **nie im Code** (Settings →
+Secrets and variables → Actions):
+
+- `DATAIMPULSE_USER`
+- `DATAIMPULSE_PASS`
+
+Getrennt gehalten, weil User und Passwort separat gebraucht werden und der
+Username pro Lauf um eine Session ergänzt wird (`…__sessid.<run-id>` → eine
+stabile Exit-IP je Lauf). Host/Port stehen im Code (`gw.dataimpulse.com:824`,
+per Env `DATAIMPULSE_HOST`/`DATAIMPULSE_PORT` überschreibbar). Port **824** =
+SOCKS5 (nicht 823/HTTP), weil die Fallback-Query als **DNS-over-TCP**
+(`dig +tcp`) durch den SOCKS5-Tunnel läuft — proxychains kann kein UDP. Damit
+ist **keine** UDP-Freischaltung bei DataImpulse nötig.
+
+Fehlen die Secrets, läuft der Check direkt ohne Proxy weiter (`::warning::`,
+kein Abbruch). Server, die erst über den Proxy auflösen, werden im Job-Summary
+gesondert ausgewiesen.
 
 ## Alarmierung
 

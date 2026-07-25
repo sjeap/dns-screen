@@ -7,6 +7,11 @@
 # name does not resolve. Cause is split: OFFLINE (no reply at all, dig rc 9) vs
 # RESOLUTION BROKEN (server replies but some names have no A answer).
 #
+# Servers that fail the direct check are re-checked through an optional
+# DataImpulse residential SOCKS5 proxy (secrets DATAIMPULSE_USER/PASS,
+# DNS-over-TCP); a server only counts as FAIL if it fails via the proxy too.
+# Without the secrets this step is skipped (warning) and behaviour is unchanged.
+#
 # Alerting model: no SMTP. The job exits 1 ONLY on an OK -> FAIL transition, so
 # GitHub sends its native failure e-mail exactly once. State is persisted in
 # state/last-status.json and committed only when it changes (no per-run noise).
@@ -37,11 +42,47 @@ fi
 
 TOTAL_T=${#TARGETS[@]}
 
+# --- optional residential proxy (DataImpulse, SOCKS5) ----------------------
+# Gleicher Account/gleiche Credentials wie im web-feed-Repo. Zwei Secrets,
+# nie im Code: DATAIMPULSE_USER, DATAIMPULSE_PASS (getrennt, weil der Username
+# pro Lauf um eine Session ergänzt wird). Host/Port stehen hier und sind per
+# Env überschreibbar. Port 824 = SOCKS5 (nötig, weil DNS über TCP durch den
+# Tunnel läuft; 823 wäre HTTP). Fehlen die Secrets -> Warnung, direkte Prüfung.
+DATAIMPULSE_HOST="${DATAIMPULSE_HOST:-gw.dataimpulse.com}"
+DATAIMPULSE_PORT="${DATAIMPULSE_PORT:-824}"
+PROXY_CONF=""
+USE_PROXY=0
+setup_proxy() {
+  if [ -z "${DATAIMPULSE_USER:-}" ] || [ -z "${DATAIMPULSE_PASS:-}" ]; then
+    echo "::warning::DATAIMPULSE_USER/PASS nicht gesetzt — Proxy-Fallback übersprungen, es bleibt bei der direkten Prüfung"
+    return 1
+  fi
+  command -v proxychains4 >/dev/null 2>&1 || {
+    echo "::warning::proxychains4 nicht installiert — Proxy-Fallback übersprungen"; return 1; }
+  # Sticky-Session pro Lauf: alle Queries eines Laufs teilen sich eine Exit-IP.
+  local session="${GITHUB_RUN_ID:-$(date +%s)}"
+  local puser="${DATAIMPULSE_USER}__sessid.${session}"
+  PROXY_CONF="$(mktemp)"
+  {
+    echo "strict_chain"
+    echo "quiet_mode"
+    echo "tcp_connect_time_out 8000"
+    echo "tcp_read_time_out 8000"
+    echo "[ProxyList]"
+    echo "socks5 $DATAIMPULSE_HOST $DATAIMPULSE_PORT $puser $DATAIMPULSE_PASS"
+  } > "$PROXY_CONF"
+  return 0
+}
+
 # --- per-target probe: echoes ok|noanswer|noreply --------------------------
-probe() { # $1=server ip  $2=name
+probe() { # $1=server ip  $2=name  (honours USE_PROXY)
   local ip="$1" name="$2" out rc got_reply=0
   for _ in 1 2; do
-    out="$(dig @"$ip" "$name" A +short +time=2 +tries=1 2>/dev/null)"; rc=$?
+    if [ "$USE_PROXY" = "1" ]; then
+      out="$(proxychains4 -f "$PROXY_CONF" -q dig +tcp @"$ip" "$name" A +short +time=4 +tries=1 2>/dev/null)"; rc=$?
+    else
+      out="$(dig @"$ip" "$name" A +short +time=2 +tries=1 2>/dev/null)"; rc=$?
+    fi
     [ "$rc" -ne 9 ] && got_reply=1
     if printf '%s\n' "$out" | grep -Eq '^([0-9]{1,3}\.){3}[0-9]{1,3}$'; then
       echo ok; return
@@ -107,6 +148,39 @@ for ip in "${SERVERS[@]}"; do
   fi
 done
 
+# --- proxy fallback: re-check failing servers via the residential proxy ----
+declare -a PROXY_RECOVERED=()
+PROXY_USED=0
+if [ "$any_fail" -eq 1 ] && setup_proxy; then
+  PROXY_USED=1
+  RETRY_IPS=("${FAIL_IPS[@]}")
+  USE_PROXY=1
+  for ip in "${RETRY_IPS[@]}"; do
+    check_server "$ip" &            # overwrites the pass-1 record in $WORKDIR/$ip
+  done
+  wait
+  USE_PROXY=0
+
+  # re-aggregate only over the previously-failing servers
+  declare -a NEW_FAIL_LINES=() NEW_FAIL_IPS=()
+  for ip in "${RETRY_IPS[@]}"; do
+    IFS=$'\t' read -r status ok bad < "$WORKDIR/$ip"
+    if [ "$status" = "OK" ]; then
+      PROXY_RECOVERED+=("$ip")      # blocked directly, but resolves via proxy
+      continue
+    fi
+    NEW_FAIL_IPS+=("$ip")
+    if [ "$status" = "OFFLINE" ]; then
+      NEW_FAIL_LINES+=("$ip  OFFLINE — auch via Proxy keine Antwort")
+    else
+      NEW_FAIL_LINES+=("$ip  AUFLÖSUNG DEFEKT (auch via Proxy) — ${ok}/${TOTAL_T} ok; kein A-Record für: ${bad}")
+    fi
+  done
+  FAIL_IPS=("${NEW_FAIL_IPS[@]}")
+  FAIL_LINES=("${NEW_FAIL_LINES[@]}")
+  [ "${#FAIL_IPS[@]}" -eq 0 ] && any_fail=0
+fi
+
 # --- previous state --------------------------------------------------------
 PREV_STATUS="OK"; PREV_SINCE="$NOW"
 if [ -f "$STATE_FILE" ]; then
@@ -146,6 +220,15 @@ if [ "$any_fail" -eq 1 ]; then
   done
 else
   summary "Alle Resolver lösen alle Ziele sauber auf."
+fi
+
+if [ "${#PROXY_RECOVERED[@]}" -gt 0 ]; then
+  summary ""
+  summary "_Nur über Proxy erreichbar (direkt vom Runner geblockt, nicht als FAIL gewertet):_ ${PROXY_RECOVERED[*]}"
+fi
+if [ "$any_fail" -eq 1 ] && [ "$PROXY_USED" -eq 0 ] && [ -z "${DATAIMPULSE_USER:-}" ]; then
+  summary ""
+  summary "_Hinweis: Proxy-Fallback inaktiv — Secrets \`DATAIMPULSE_USER\`/\`DATAIMPULSE_PASS\` nicht gesetzt._"
 fi
 
 # --- transition-only failure signal ---------------------------------------
