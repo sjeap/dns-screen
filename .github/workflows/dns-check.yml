@@ -1,1 +1,45 @@
+name: dns-check
 
+on:
+  schedule:
+    - cron: "*/15 * * * *"   # alle 15 min (GitHub-Cron ist best effort)
+  workflow_dispatch:
+
+# Kein Overlap, falls ein Lauf länger dauert als das Intervall.
+concurrency:
+  group: dns-check
+  cancel-in-progress: false
+
+permissions:
+  contents: write            # State-Datei zurück ins Repo committen
+
+jobs:
+  check:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+
+      - name: dig bereitstellen
+        run: sudo apt-get update -qq && sudo apt-get install -y -qq bind9-dnsutils
+
+      # check.sh schreibt den State und beendet sich mit exit 1 GENAU bei
+      # OK -> FAIL. Der Job wird dann rot -> GitHub schickt seine native
+      # Failure-Mail (einmalig). Detailreport steht im Job-Summary.
+      - name: DNS prüfen
+        id: check
+        run: bash check.sh
+
+      # Läuft auch, wenn der Check fehlschlägt (State wurde vorher geschrieben).
+      # Commit nur bei tatsächlicher Änderung -> keine 15-min-Commit-Flut.
+      - name: State persistieren
+        if: always()
+        run: |
+          if git diff --quiet -- last-status.json; then
+            echo "State unverändert, kein Commit."
+            exit 0
+          fi
+          git config user.name  "github-actions[bot]"
+          git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
+          git add last-status.json
+          git commit -m "dns-monitor: Statuswechsel $(date -u +%FT%TZ) [skip ci]"
+          git push
