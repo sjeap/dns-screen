@@ -11,10 +11,13 @@ native Failure-Mail — ohne SMTP-Action, ohne Secrets.
   die Sektion `resolver-results` ab und gibt die **IPv4-Adressen (A-Records)**
   der Resolver aus.
 - **Ziele** stehen in `targets.txt` (ein Name pro Zeile, `#` = Kommentar).
-- **Prüfung**: je Server × Ziel `dig @<ip> <name> A +short` mit 2 Versuchen
-  (gegen UDP-Paketverlust). Nur A-Records zählen.
+- **Prüfung**: alle Server werden **parallel** geprüft (ein Job pro IP), je
+  Server × Ziel `dig @<ip> <name> A +short` mit 2 Versuchen (gegen
+  UDP-Paketverlust). Nur A-Records zählen. Ein stummer Server wird per
+  Early-Exit sofort als offline gewertet, ein 20-s-Deckel begrenzt jeden
+  Server hart — die Gesamtdauer richtet sich nach dem langsamsten Einzelserver.
 - **Bewertung** je Server:
-  - `OFFLINE` — keine Antwort auf **alle** Ziele (`dig`-Exit 9).
+  - `OFFLINE` — Server antwortet auf gar nichts (`dig`-Exit 9).
   - `AUFLÖSUNG DEFEKT` — Server antwortet, aber für einzelne Ziele kommt kein
     A-Record (SERVFAIL/NXDOMAIN/leer); die betroffenen Namen werden benannt.
   - sonst `OK`.
@@ -53,6 +56,9 @@ wenn der Check fehlschlägt.
 - **Public Repo** empfohlen — Actions sind dort gratis. Privat: ~96 Läufe/Tag
   sprengen das Free-Minutenkontingent.
 - Runner haben kein IPv6-Egress — daher ohnehin nur A-Records.
+- Geprüft wird aus dem **GitHub-Runner-Netz** (Azure-Datacenter-IPs). Resolver,
+  die nur bestimmte Netze bedienen und die Runner-IPs nicht beantworten,
+  erscheinen als `OFFLINE` — auch wenn sie lokal erreichbar sind.
 - Der Schedule wird nach 60 Tagen ohne Repo-Aktivität automatisch deaktiviert.
 
 ## Layout
@@ -60,7 +66,7 @@ wenn der Check fehlschlägt.
 ```
 dns-monitor/
 ├── extract-servers.py  ← MHTML → IPv4-Resolverliste (A-Records)
-├── check.sh            ← dig-Loop, Klassifizierung, State, Transition-Exit
+├── check.sh            ← paralleler dig-Loop, Klassifizierung, State, Transition-Exit
 ├── targets.txt         ← feste Prüfliste (ein Name pro Zeile)
 ├── last-status.json    ← persistierter Status (Commit nur bei Zustandswechsel)
 ├── ACKNOWLEDGMENTS.md  ← Credits/Quellen (wird ins README gespiegelt)

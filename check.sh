@@ -41,40 +41,69 @@ TOTAL_T=${#TARGETS[@]}
 probe() { # $1=server ip  $2=name
   local ip="$1" name="$2" out rc got_reply=0
   for _ in 1 2; do
-    out="$(dig @"$ip" "$name" A +short +time=3 +tries=1 2>/dev/null)"; rc=$?
+    out="$(dig @"$ip" "$name" A +short +time=2 +tries=1 2>/dev/null)"; rc=$?
     [ "$rc" -ne 9 ] && got_reply=1
     if printf '%s\n' "$out" | grep -Eq '^([0-9]{1,3}\.){3}[0-9]{1,3}$'; then
       echo ok; return
     fi
-    sleep 1
+    sleep 0.5
   done
   [ "$got_reply" -eq 1 ] && echo noanswer || echo noreply
 }
 
-# --- run checks ------------------------------------------------------------
+# --- run checks (parallel: one background job per server IP) ---------------
+WORKDIR="$(mktemp -d)"
+trap 'rm -rf "$WORKDIR"' EXIT
+
+# Probes all TARGETS against one server and writes a single result record to
+# $WORKDIR/<ip>:  "<OK|OFFLINE|BROKEN>\t<ok_count>\t<space-separated bad names>"
+# Bounded: bricht früh ab, wenn der Server auf die ersten Namen gar nicht
+# antwortet (offline), und hart nach SERVER_DEADLINE Sekunden.
+SERVER_DEADLINE=20
+
+check_server() {
+  local ip="$1" ok=0 noreply=0 noanswer=0
+  local -a bad=()
+  local name start=$SECONDS
+  for name in "${TARGETS[@]}"; do
+    [ $((SECONDS - start)) -ge "$SERVER_DEADLINE" ] && break   # hard cap
+    case "$(probe "$ip" "$name")" in
+      ok)       ok=$((ok+1)) ;;
+      noreply)  noreply=$((noreply+1)); bad+=("$name") ;;
+      noanswer) noanswer=$((noanswer+1)); bad+=("$name") ;;
+    esac
+    # Early-Exit: bisher nur Nicht-Antworten -> Server ist offline, Rest sparen.
+    if [ "$ok" -eq 0 ] && [ "$noanswer" -eq 0 ] && [ "$noreply" -ge 2 ]; then
+      break
+    fi
+  done
+  local status
+  if   [ "$ok" -eq "$TOTAL_T" ];                 then status="OK"
+  elif [ "$ok" -eq 0 ] && [ "$noanswer" -eq 0 ]; then status="OFFLINE"
+  else                                                status="BROKEN"
+  fi
+  printf '%s\t%s\t%s\n' "$status" "$ok" "${bad[*]}" > "$WORKDIR/$ip"
+}
+
+for ip in "${SERVERS[@]}"; do
+  check_server "$ip" &
+done
+wait   # dauert nur so lange wie der langsamste einzelne Server
+
+# --- aggregate (in original server order for stable output) ----------------
 declare -a FAIL_LINES=()   # human-readable, one per failing server
 declare -a FAIL_IPS=()     # ip list for state
 any_fail=0
 
 for ip in "${SERVERS[@]}"; do
-  ok=0; noreply=0; declare -a bad=()
-  for name in "${TARGETS[@]}"; do
-    case "$(probe "$ip" "$name")" in
-      ok)      ok=$((ok+1)) ;;
-      noreply) noreply=$((noreply+1)); bad+=("$name") ;;
-      noanswer) bad+=("$name") ;;
-    esac
-  done
-
-  if [ "$ok" -eq "$TOTAL_T" ]; then
-    continue                                   # server OK
-  fi
+  IFS=$'\t' read -r status ok bad < "$WORKDIR/$ip"
+  [ "$status" = "OK" ] && continue
   any_fail=1
   FAIL_IPS+=("$ip")
-  if [ "$noreply" -eq "$TOTAL_T" ]; then
-    FAIL_LINES+=("$ip  OFFLINE — keine Antwort auf alle $TOTAL_T Ziele (dig rc 9)")
+  if [ "$status" = "OFFLINE" ]; then
+    FAIL_LINES+=("$ip  OFFLINE — Server antwortet nicht (dig rc 9)")
   else
-    FAIL_LINES+=("$ip  AUFLÖSUNG DEFEKT — ${ok}/${TOTAL_T} ok; kein A-Record für: ${bad[*]}")
+    FAIL_LINES+=("$ip  AUFLÖSUNG DEFEKT — ${ok}/${TOTAL_T} ok; kein A-Record für: ${bad}")
   fi
 done
 
