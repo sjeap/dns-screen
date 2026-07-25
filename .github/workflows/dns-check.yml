@@ -19,14 +19,17 @@ jobs:
     steps:
       - uses: actions/checkout@v4
 
-      - name: dig bereitstellen
-        run: sudo apt-get update -qq && sudo apt-get install -y -qq bind9-dnsutils
+      - name: dig + proxychains bereitstellen
+        run: sudo apt-get update -qq && sudo apt-get install -y -qq bind9-dnsutils proxychains4
 
       # check.sh schreibt den State und beendet sich mit exit 1 GENAU bei
       # OK -> FAIL. Der Job wird dann rot -> GitHub schickt seine native
       # Failure-Mail (einmalig). Detailreport steht im Job-Summary.
       - name: DNS prüfen
         id: check
+        env:
+          DATAIMPULSE_USER: ${{ secrets.DATAIMPULSE_USER }}   # optional; fehlt = kein Proxy-Fallback
+          DATAIMPULSE_PASS: ${{ secrets.DATAIMPULSE_PASS }}
         run: bash check.sh
 
       # Läuft auch, wenn der Check fehlschlägt (State wurde vorher geschrieben).
